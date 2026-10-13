@@ -23,3 +23,31 @@ Coordination role: QA Lead
 peshalahiruni39 — Approval and integration
 FR-04: approve/reject requests, booking status, integration and CI support.
 Shares integration work with Member 2, the GitHub/CI Lead.
+
+
+Group Members and Module Allocation
+
+| Member | GitHub Username | Module |
+|---|---|---|
+| Member 1 | nirmanijayakodi0-afk| FR-00 Accounts |
+| Member 2 | dewni2003 | FR-01 Equipment |
+| Member 3 | Eranthi-Sudusinghe | FR-02 Booking Request |
+| Member 4 | Hansika | FR-03 Validation and Tests |
+| Member 5 | peshalahiruni39 | FR-04 Approval and Integration |
+
+ Coordination Roles
+
+- Coordinator: Member 1
+- QA Lead: Member 4
+- GitHub/CI Lead: Member 2
+- Review Lead: Member 3
+
+Member 5 supports integration and CI.
+
+ Collaboration Rules
+
+- Each feature should be developed on a separate branch.
+- Pull requests must be reviewed by another member.
+- Authors must not approve their own pull requests.
+- Tests and CI must pass before merging.
+
