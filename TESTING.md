@@ -24,6 +24,7 @@
 - The home page test passed using pytest.
 - Initial code coverage for app.py was 95%.
 - Additional test cases will be implemented as project features are developed.
+- - GitHub Actions initial run failed because the app module could not be imported. Fix and rerun required.
 
 ## 4. Future Testing
 
