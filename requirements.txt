@@ -1,0 +1,7 @@
+
+Flask
+Flask-SQLAlchemy
+Flask-Login
+pytest
+pytest-cov
+ruff
