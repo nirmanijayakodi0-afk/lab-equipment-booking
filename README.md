@@ -44,10 +44,5 @@ Group Members and Module Allocation
 
 Member 5 supports integration and CI.
 
- Collaboration Rules
 
-- Each feature should be developed on a separate branch.
-- Pull requests must be reviewed by another member.
-- Authors must not approve their own pull requests.
-- Tests and CI must pass before merging.
 
