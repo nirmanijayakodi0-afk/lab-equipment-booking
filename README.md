@@ -1,16 +1,5 @@
 # lab-equipment-booking
-The Faculty maintains a shared collection of equipment used by students for coursework and
-projects.
-Examples include:
-• Raspberry Pi kits;
-• Arduino kits;
-• oscilloscopes;
-• VR headsets;
-• 3D printing equipment.
-Currently, equipment bookings are recorded manually.
-This can cause problems such as:
-• double bookings;
-• lost booking records;
-• difficulty checking equipment availability;
-• difficulty managing booking requests.
-We  develop a small web system to manage these bookings.
+# Faculty Equipment Booking Management System 
+The Faculty Equipment Booking Management System is a web-based application designed to manage the booking of shared faculty equipment, such as Raspberry Pi kits, Arduino kits, oscilloscopes, VR headsets, and 3D printing equipment. It replaces the manual booking process with a centralized digital system where students can request equipment bookings and check availability. 
+The purpose of this system is to simplify and organize equipment booking management by maintaining digital booking records, tracking equipment availability, and managing booking requests efficiently. It aims to reduce administrative workload and prevent scheduling conflicts.
+This system helps prevent double bookings, reduces the risk of lost records, improves equipment availability checking, and makes booking requests easier to manage. It also provides better organization, saves time for students and faculty staff, and ensures fair and efficient use of shared equipment.
