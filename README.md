@@ -37,12 +37,11 @@ Group Members and Module Allocation
 
  Coordination Roles
 
-- Coordinator: Member 1
-- QA Lead: Member 4
-- GitHub/CI Lead: Member 2
-- Review Lead: Member 3
-
-Member 5 supports integration and CI.
+- Coordinator: Member 1 - J.M.N.N.Jayakodi
+- QA Lead: Member 4 - E.M.Hansika
+- GitHub/CI Lead: Member 2 - D.N.Wanigasinghe
+- Review Lead: Member 3 - E.S.L.Sudusinghe
+- Supports integration and CI- Member 5 - H.P.H.Peshala
 
 
 
