@@ -26,5 +26,7 @@ jobs:
       - name: Run Ruff
         run: ruff check .
 
-      - name: Run pytest
-        run: pytest --cov=app --cov-report=term
+     - name: Run pytest
+  env:
+    PYTHONPATH: .
+  run: pytest --cov=app --cov-report=term
