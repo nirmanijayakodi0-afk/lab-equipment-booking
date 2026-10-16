@@ -1,3 +1,4 @@
+
 name: Python CI
 
 on:
@@ -26,7 +27,7 @@ jobs:
       - name: Run Ruff
         run: ruff check .
 
-     - name: Run pytest
-  env:
-    PYTHONPATH: .
-  run: pytest --cov=app --cov-report=term
+      - name: Run pytest
+        env:
+          PYTHONPATH: .
+        run: python -m pytest --cov=app --cov-report=term
