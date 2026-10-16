@@ -29,11 +29,11 @@ Group Members and Module Allocation
 
 | Member | GitHub Username | Module |
 |---|---|---|
-| Member 1 | nirmanijayakodi0-afk| FR-00 Accounts |
-| Member 2 | dewni2003 | FR-01 Equipment |
-| Member 3 | Eranthi-Sudusinghe | FR-02 Booking Request |
-| Member 4 | Hansika | FR-03 Validation and Tests |
-| Member 5 | peshalahiruni39 | FR-04 Approval and Integration |
+| Member 1 | nirmanijayakodi0-afk| M1- Accounts and authentication |
+| Member 2 | dewni2003 | M2- Equipment catalogue |
+| Member 3 | Eranthi-Sudusinghe | M3- Booking form and booking model |
+| Member 4 | Hansika |M4- Booking validation and tests |
+| Member 5 | peshalahiruni39 | M5-Approval ,integration and CI |
 
  Coordination Roles
 
