@@ -1,0 +1,179 @@
+
+{% extends "base.html" %}
+
+{% block title %}Equipment Catalogue | LabBook{% endblock %}
+
+{% block content %}
+<div class="page-heading d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div>
+        <h1>Equipment Catalogue</h1>
+        <p>Explore laboratory equipment and book the items you need.</p>
+    </div>
+
+    {% if current_user.is_authenticated and current_user.role == 'staff' %}
+        <a href="{{ url_for('equipment.add_equipment') }}"
+           class="btn btn-primary">
+            + Add Equipment
+        </a>
+    {% endif %}
+</div>
+
+<!-- Category filter -->
+<div class="panel mb-4">
+    <form method="GET"
+          action="{{ url_for('equipment.list_equipment') }}"
+          class="row g-3 align-items-end">
+
+        <div class="col-md-8">
+            <label for="category" class="form-label">
+                Filter by category
+            </label>
+
+            <select id="category" name="category" class="form-select">
+                <option value="">All categories</option>
+
+                {% for category in categories %}
+                    <option value="{{ category }}"
+                        {% if selected_category == category %}selected{% endif %}>
+                        {{ category }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-md-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary flex-grow-1">
+                Apply Filter
+            </button>
+
+            <a href="{{ url_for('equipment.list_equipment') }}"
+               class="btn btn-outline-secondary">
+                Reset
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- Equipment table -->
+<div class="panel">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h5 class="fw-bold mb-0">Equipment Records</h5>
+
+        <span class="muted-text small">
+            {{ equipment|length }} record(s)
+        </span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Equipment Name</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in equipment %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+
+                        <td class="fw-semibold">
+                            {{ item.name }}
+                        </td>
+
+                        <td>
+                            <span class="badge text-bg-light border">
+                                {{ item.category }}
+                            </span>
+                        </td>
+
+                        <td class="equipment-description">
+                            {{ item.description or 'No description provided' }}
+                        </td>
+
+                        <td>
+                            {% if item.status == 'Available' %}
+                                <span class="status-badge status-approved">
+                                    Available
+                                </span>
+                            {% else %}
+                                <span class="status-badge status-rejected">
+                                    Out of service
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if current_user.is_authenticated
+                                  and current_user.role == 'staff' %}
+
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a href="{{ url_for('equipment.edit_equipment', equipment_id=item.id) }}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+
+                                    <form method="POST"
+                                          action="{{ url_for('equipment.delete_equipment', equipment_id=item.id) }}"
+                                          onsubmit="return confirm('Delete this equipment record?');">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+
+                            {% elif item.status == 'Available'
+                                      and current_user.is_authenticated
+                                      and current_user.role == 'student' %}
+
+                                <a href="{{ url_for('bookings.create_booking', equipment_id=item.id) }}"
+                                   class="btn btn-sm btn-primary">
+                                    Book Now
+                                </a>
+
+                            {% elif item.status != 'Available' %}
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-secondary"
+                                        disabled>
+                                    Unavailable
+                                </button>
+
+                            {% else %}
+                                <a href="{{ url_for('auth.login') }}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Login to Book
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-5">
+                            <h6>No equipment found</h6>
+                            <p class="muted-text mb-0">
+                                Try another category or ask lab staff to add equipment.
+                            </p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .equipment-description {
+        min-width: 180px;
+        max-width: 300px;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,85 @@
+
+{% extends "base.html" %}
+
+{% block title %}Manage Requests | LabBook{% endblock %}
+
+{% block content %}
+<div class="page-heading">
+    <h1>Booking Requests</h1>
+    <p>Review student requests and make a booking decision.</p>
+</div>
+
+<div class="panel">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Equipment</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Decision</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.student.username }}</td>
+                        <td>{{ booking.equipment.name }}</td>
+                        <td>{{ booking.booking_date.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            {{ booking.start_time.strftime('%H:%M') }}
+                            – {{ booking.end_time.strftime('%H:%M') }}
+                        </td>
+                        <td>
+                            {% if booking.status == 'Pending' %}
+                                <div class="d-flex flex-wrap gap-2">
+                                    <form method="POST"
+                                          action="{{ url_for('staff.review_booking', booking_id=booking.id) }}">
+                                        <input type="hidden" name="decision"
+                                               value="Approved">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-success">
+                                            Approve
+                                        </button>
+                                    </form>
+
+                                    <form method="POST"
+                                          action="{{ url_for('staff.review_booking', booking_id=booking.id) }}">
+                                        <input type="hidden" name="decision"
+                                               value="Rejected">
+                                        <input type="hidden" name="rejection_reason"
+                                               value="Rejected by lab staff">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-danger">
+                                            Reject
+                                        </button>
+                                    </form>
+                                </div>
+                            {% else %}
+                                <span class="status-badge
+                                    {% if booking.status == 'Approved' %}
+                                        status-approved
+                                    {% else %}
+                                        status-rejected
+                                    {% endif %}">
+                                    {{ booking.status }}
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center py-5">
+                            <h6>No booking requests found</h6>
+                            <p class="muted-text mb-0">
+                                New student requests will appear here.
+                            </p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,35 +1,97 @@
 
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+"""Application setup and homepage dashboard."""
 
-app = Flask(__name__)
+import os
 
-app.config["SECRET_KEY"] = "local-development-key"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///booking.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+from flask import Flask, render_template
+from flask_login import current_user
+from sqlalchemy import func, select
 
-db = SQLAlchemy(app)
-
-
-class Equipment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    category = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(250), default="")
-    status = db.Column(db.String(20), default="Available")
+from extensions import db, login_manager
 
 
-with app.app_context():
-    db.create_all()
+def create_app(test_config=None):
+    app = Flask(__name__)
+
+    app.config.from_mapping(
+        SECRET_KEY=os.environ.get(
+            "SECRET_KEY",
+            "local-development-key-change-before-deployment",
+        ),
+        SQLALCHEMY_DATABASE_URI="sqlite:///booking.db",
+        SQLALCHEMY_TRACK_MODIFICATIONS=False,
+    )
+
+    if test_config:
+        app.config.update(test_config)
+
+    db.init_app(app)
+    login_manager.init_app(app)
+
+    # Import models so SQLAlchemy knows about their tables.
+    import models  # noqa: F401
+
+    # Register application routes.
+    from routes.auth import auth_bp
+    from routes.bookings import bookings_bp
+    from routes.equipment import equipment_bp
+    from routes.staff import staff_bp
+
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(bookings_bp)
+    app.register_blueprint(equipment_bp)
+    app.register_blueprint(staff_bp)
+
+    from models import Booking, Equipment
+
+    @app.route("/")
+    def home():
+        # Count all equipment records, including out-of-service items.
+        equipment_count = (
+            db.session.scalar(
+                select(func.count(Equipment.id))
+            )
+            or 0
+        )
+
+        booking_count = 0
+        pending_count = 0
+
+        if current_user.is_authenticated:
+            if current_user.role == "student":
+                booking_count = (
+                    db.session.scalar(
+                        select(func.count(Booking.id)).where(
+                            Booking.student_id == current_user.id
+                        )
+                    )
+                    or 0
+                )
+
+            elif current_user.role == "staff":
+                pending_count = (
+                    db.session.scalar(
+                        select(func.count(Booking.id)).where(
+                            Booking.status == "Pending"
+                        )
+                    )
+                    or 0
+                )
+
+        return render_template(
+            "home.html",
+            equipment_count=equipment_count,
+            booking_count=booking_count,
+            pending_count=pending_count,
+        )
+
+    with app.app_context():
+        db.create_all()
+
+    return app
 
 
-@app.route("/")
-def home():
-    return """
-    <h1>Lab Equipment Booking System</h1>
-    <p>Your application is running successfully!</p>
-    """
-
+app = create_app()
 
 if __name__ == "__main__":
     app.run(debug=True)
