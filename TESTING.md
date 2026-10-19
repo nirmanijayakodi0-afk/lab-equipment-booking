@@ -28,16 +28,57 @@
 | T14 | FR-04 | Staff approves a Pending booking | Status becomes Approved | Functional | Planned |
 | T15 | FR-04 | Student views own booking | Show current status | Functional | Planned |
 
-## Initial Test Results
+## Test Execution Instructions
 
-- T01 passed when executed with pytest.
-- Coverage for app.py: 95%.
-- Total statements: 20.
-- Missed statements: 1.
+Activate the virtual environment:
 
-## Notes
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
 
-The remaining test cases are planned for implementation
-as the related application features are developed.
+Run automated tests:
 
-Results must reflect actual test execution.
+```powershell
+python -m pytest -v
+```
+
+Run tests with coverage:
+
+```powershell
+python -m pytest --cov=app --cov-report=term-missing
+```
+
+Run code quality checks:
+
+```powershell
+ruff check .
+```
+
+## Test Execution Results
+
+Update this section after executing the tests.
+
+| Item | Actual Result |
+|---|---|
+| Total tests | Record actual count |
+| Passed | Record actual count |
+| Failed | Record actual count |
+| Code coverage | Record actual percentage |
+| Ruff | Record actual result |
+
+## Boundary Value and Negative Testing
+
+The test suite should verify:
+- Empty or missing required fields.
+- Invalid booking start and end times.
+- A duration of 29 minutes, 30 minutes, and 4 hours, according to the booking rules.
+- Equipment that does not exist or is unavailable.
+- Invalid login credentials, if login is implemented.
+
+## Continuous Integration
+
+GitHub Actions should execute the automated tests and Ruff checks whenever code is pushed or a pull request is opened. Review the Actions logs and record the actual results.
+
+## Limitations
+
+Only implemented features and executed tests should be reported as completed. Update the test results whenever the test suite changes.

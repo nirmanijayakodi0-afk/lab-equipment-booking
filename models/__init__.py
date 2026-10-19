@@ -3,4 +3,4 @@ from models.booking import Booking
 from models.equipment import Equipment
 from models.user import User
 
-__all__ = ["User", "Equipment", "Booking"]
+__all__ = ["Booking", "Equipment", "User"]
