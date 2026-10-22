@@ -3,6 +3,7 @@
 
 from datetime import date, datetime, time, timedelta
 
+from extensions import db
 from flask import (
     Blueprint,
     abort,
@@ -13,10 +14,9 @@ from flask import (
     url_for,
 )
 from flask_login import current_user, login_required
-from sqlalchemy import select
-
-from extensions import db
 from models import Booking, Equipment
+from sqlalchemy import select
+from sqlalchemy.exc import SQLAlchemyError
 
 
 bookings_bp = Blueprint("bookings", __name__, url_prefix="/bookings")
@@ -127,10 +127,10 @@ def create_booking():
             "danger",
         )
         return render_booking_form(
-            equipment_items,
-            selected_equipment_id,
+            equipment_items, selected_equipment_id
         )
 
+    # HTML time inputs should provide whole-minute values.
     if start_time.second or start_time.microsecond:
         flash("Please enter a valid start time.", "danger")
         return render_booking_form(
@@ -247,7 +247,7 @@ def create_booking():
         db.session.add(booking)
         db.session.commit()
 
-    except Exception:
+    except SQLAlchemyError:
         db.session.rollback()
         flash(
             "Unable to submit the booking. Please try again.",
@@ -281,9 +281,7 @@ def my_bookings():
         )
     )
 
-    user_bookings = db.session.scalars(
-        statement
-    ).all()
+    user_bookings = db.session.scalars(statement).all()
 
     return render_template(
         "my_bookings.html",
