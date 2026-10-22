@@ -1,4 +1,3 @@
-
 """Student booking request and history routes."""
 
 from datetime import date, datetime, time, timedelta
@@ -18,7 +17,7 @@ from sqlalchemy import select
 from extensions import db
 from models import Booking, Equipment
 
-bookings_bp = Blueprint("bookings", __name__, url_prefix="/bookings")
+bookings_bp = Blueprint("bookings", _name_, url_prefix="/bookings")
 
 
 def has_booking_conflict(
