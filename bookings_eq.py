@@ -1,3 +1,4 @@
+
 """Student booking request and history routes."""
 
 from datetime import date, datetime, time, timedelta
@@ -17,7 +18,8 @@ from sqlalchemy import select
 from extensions import db
 from models import Booking, Equipment
 
-bookings_bp = Blueprint("bookings", _name_, url_prefix="/bookings")
+
+bookings_bp = Blueprint("bookings", __name__, url_prefix="/bookings")
 
 
 def has_booking_conflict(
@@ -38,12 +40,17 @@ def has_booking_conflict(
     )
 
     if exclude_booking_id is not None:
-        statement = statement.where(Booking.id != exclude_booking_id)
+        statement = statement.where(
+            Booking.id != exclude_booking_id
+        )
 
     return db.session.scalar(statement) is not None
 
 
-def render_booking_form(equipment_items, selected_equipment_id=""):
+def render_booking_form(
+    equipment_items,
+    selected_equipment_id="",
+):
     """Render the booking form with the selected equipment and today's date."""
 
     return render_template(
@@ -67,16 +74,20 @@ def create_booking():
     ).all()
 
     if request.method == "GET":
-        selected_equipment_id = request.args.get("equipment_id", "")
+        selected_equipment_id = request.args.get(
+            "equipment_id", ""
+        )
 
-        # Only preselect a valid equipment ID.
         if selected_equipment_id:
             try:
                 equipment_id = int(selected_equipment_id)
-                selected_item = db.session.get(Equipment, equipment_id)
+                selected_item = db.session.get(
+                    Equipment, equipment_id
+                )
 
                 if selected_item is None:
                     selected_equipment_id = ""
+
             except (ValueError, TypeError):
                 selected_equipment_id = ""
 
@@ -85,68 +96,128 @@ def create_booking():
             selected_equipment_id,
         )
 
-    selected_equipment_id = request.form.get("equipment_id", "").strip()
-    booking_date_value = request.form.get("booking_date", "").strip()
-    start_time_value = request.form.get("start_time", "").strip()
-    end_time_value = request.form.get("end_time", "").strip()
+    selected_equipment_id = request.form.get(
+        "equipment_id", ""
+    ).strip()
+    booking_date_value = request.form.get(
+        "booking_date", ""
+    ).strip()
+    start_time_value = request.form.get(
+        "start_time", ""
+    ).strip()
+    end_time_value = request.form.get(
+        "end_time", ""
+    ).strip()
 
     try:
         equipment_id = int(selected_equipment_id)
-        booking_date = date.fromisoformat(booking_date_value)
-        start_time = time.fromisoformat(start_time_value)
-        end_time = time.fromisoformat(end_time_value)
+        booking_date = date.fromisoformat(
+            booking_date_value
+        )
+        start_time = time.fromisoformat(
+            start_time_value
+        )
+        end_time = time.fromisoformat(
+            end_time_value
+        )
+
     except (ValueError, TypeError):
-        flash("Please enter valid equipment, date, and times.", "danger")
+        flash(
+            "Please enter valid equipment, date, and times.",
+            "danger",
+        )
         return render_booking_form(
             equipment_items,
             selected_equipment_id,
         )
 
-    # HTML time inputs should provide whole-minute values.
     if start_time.second or start_time.microsecond:
         flash("Please enter a valid start time.", "danger")
-        return render_booking_form(equipment_items, selected_equipment_id)
+        return render_booking_form(
+            equipment_items, selected_equipment_id
+        )
 
     if end_time.second or end_time.microsecond:
         flash("Please enter a valid end time.", "danger")
-        return render_booking_form(equipment_items, selected_equipment_id)
+        return render_booking_form(
+            equipment_items, selected_equipment_id
+        )
 
     item = db.session.get(Equipment, equipment_id)
 
     if item is None:
-        flash("The selected equipment does not exist.", "danger")
-        return render_booking_form(equipment_items, selected_equipment_id)
+        flash(
+            "The selected equipment does not exist.",
+            "danger",
+        )
+        return render_booking_form(
+            equipment_items, selected_equipment_id
+        )
 
     if item.status != "Available":
-        flash("This equipment is currently out of service.", "danger")
-        return render_booking_form(equipment_items, selected_equipment_id)
+        flash(
+            "This equipment is currently out of service.",
+            "danger",
+        )
+        return render_booking_form(
+            equipment_items, selected_equipment_id
+        )
 
     now = datetime.now()
 
     if booking_date < now.date():
-        flash("You cannot book equipment for a past date.", "danger")
-        return render_booking_form(equipment_items, selected_equipment_id)
+        flash(
+            "You cannot book equipment for a past date.",
+            "danger",
+        )
+        return render_booking_form(
+            equipment_items, selected_equipment_id
+        )
 
-    start_datetime = datetime.combine(booking_date, start_time)
-    end_datetime = datetime.combine(booking_date, end_time)
+    start_datetime = datetime.combine(
+        booking_date, start_time
+    )
+    end_datetime = datetime.combine(
+        booking_date, end_time
+    )
 
     if start_datetime <= now:
-        flash("The booking start time must be in the future.", "danger")
-        return render_booking_form(equipment_items, selected_equipment_id)
+        flash(
+            "The booking start time must be in the future.",
+            "danger",
+        )
+        return render_booking_form(
+            equipment_items, selected_equipment_id
+        )
 
     if end_time <= start_time:
-        flash("The end time must be later than the start time.", "danger")
-        return render_booking_form(equipment_items, selected_equipment_id)
+        flash(
+            "The end time must be later than the start time.",
+            "danger",
+        )
+        return render_booking_form(
+            equipment_items, selected_equipment_id
+        )
 
     duration = end_datetime - start_datetime
 
     if duration < timedelta(minutes=30):
-        flash("Bookings must be at least 30 minutes long.", "danger")
-        return render_booking_form(equipment_items, selected_equipment_id)
+        flash(
+            "Bookings must be at least 30 minutes long.",
+            "danger",
+        )
+        return render_booking_form(
+            equipment_items, selected_equipment_id
+        )
 
     if duration > timedelta(hours=4):
-        flash("Bookings cannot exceed 4 hours.", "danger")
-        return render_booking_form(equipment_items, selected_equipment_id)
+        flash(
+            "Bookings cannot exceed 4 hours.",
+            "danger",
+        )
+        return render_booking_form(
+            equipment_items, selected_equipment_id
+        )
 
     if has_booking_conflict(
         equipment_id,
@@ -159,7 +230,9 @@ def create_booking():
             "or approved booking.",
             "danger",
         )
-        return render_booking_form(equipment_items, selected_equipment_id)
+        return render_booking_form(
+            equipment_items, selected_equipment_id
+        )
 
     booking = Booking(
         student_id=current_user.id,
@@ -170,10 +243,24 @@ def create_booking():
         status="Pending",
     )
 
-    db.session.add(booking)
-    db.session.commit()
+    try:
+        db.session.add(booking)
+        db.session.commit()
 
-    flash("Booking request submitted for staff approval.", "success")
+    except Exception:
+        db.session.rollback()
+        flash(
+            "Unable to submit the booking. Please try again.",
+            "danger",
+        )
+        return render_booking_form(
+            equipment_items, selected_equipment_id
+        )
+
+    flash(
+        "Booking request submitted for staff approval.",
+        "success",
+    )
     return redirect(url_for("bookings.my_bookings"))
 
 
@@ -194,7 +281,9 @@ def my_bookings():
         )
     )
 
-    user_bookings = db.session.scalars(statement).all()
+    user_bookings = db.session.scalars(
+        statement
+    ).all()
 
     return render_template(
         "my_bookings.html",
