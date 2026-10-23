@@ -38,7 +38,7 @@
 - [x] Checked whether the tests cover the intended functionality.
 - [x] Checked the test results.
 - [ ] Submitted review comments or feedback.
-- **Review decision:** [Enter actual status: Approved]
+- **Review decision:** [Approved]
 
 
 ### 2. Test/initial pytest — PR #13
@@ -49,7 +49,7 @@
 - [x] Checked whether the tests cover the intended functionality.
 - [x] Checked the test results.
 - [ ] Submitted review comments or feedback.
-- **Review decision:** [Enter actual status: Approved]
+- **Review decision:** [Approved]
 
 
 ### 3. Add initial Flask application test — PR #12
@@ -60,7 +60,7 @@
 - [x] Checked the test setup and assertions.
 - [x] Checked the test results.
 - [x] Submitted review comments or feedback.
-- **Review decision:** [Enter actual status: Approved]
+- **Review decision:** [Approved]
 - **Findings and comments:** [The homepage test checks the response status and page typing .This is a good starting point for automated testing.]
 
 ## Overall Review Summary
