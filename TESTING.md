@@ -28,9 +28,10 @@
 | T14 | FR-04 | Staff approves a Pending booking | Status becomes Approved | Functional | Pass |
 | T15 | FR-04 | Student views own booking | Show current status | Functional | Pass |
 
-## Initial Test Results
+## Test Results
 
-- T01 passed when executed with pytest.
-- Coverage for app.py: 95%.
-- Total statements: 20.
+- *Ruff result:* Passed — All checks passed in the recorded GitHub Actions run.
+- *pytest result:* 1 passed, 0 failed, 0 skipped in the recorded GitHub Actions run.
+- *Coverage:* 95% in the recorded GitHub Actions run.
+- *Outstanding failures:* Local pytest currently reports ModuleNotFoundError: No module named 'app' when collecting tests/test_app.py. This issue needs to be resolved and the local tests rerun.
 
