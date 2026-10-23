@@ -23,6 +23,6 @@ In future, we would write more tests for FR-00 to FR-04, thoroughly test FR-03 b
 - **Peer reviews completed:** [8]
 - **Automated test coverage:** [95%]
 
-## Conclusion
+## Conclusions
 
-This project improved our practical skills in Flask development, automated testing, GitHub collaboration, and software quality assurance. Our next priority is to verify all functional requirements, resolve remaining test issues, and maintain accurate project documentation.
+This project improved our practical skills in Flask development, automated testing(Ruff Run test), GitHub collaboration, and software quality assurance. Our next priority is to verify all functional requirements, resolve remaining test issues, and maintain accurate project documentation.
