@@ -51,10 +51,7 @@ def dashboard():
     )
 
 
-@staff_bp.route(
-    "/bookings/<int:booking_id>/review",
-    methods=["POST"],
-)
+@staff_bp.route("/bookings/<int:booking_id>/review", methods=["POST"])
 @staff_required
 def review_booking(booking_id):
     """Approve or reject a pending booking."""
@@ -65,10 +62,7 @@ def review_booking(booking_id):
         abort(404)
 
     if booking.status != "Pending":
-        flash(
-            "This booking has already been reviewed.",
-            "warning",
-        )
+        flash("This booking has already been reviewed.", "warning")
         return redirect(url_for("staff.dashboard"))
 
     decision = request.form.get("decision", "").strip()
@@ -107,17 +101,12 @@ def review_booking(booking_id):
         flash("Booking approved successfully.", "success")
 
     else:
-        reason = request.form.get(
-            "rejection_reason",
-            "",
-        ).strip()
-
+        reason = request.form.get("rejection_reason", "").strip()
         booking.status = "Rejected"
-        booking.rejection_reason = (
-            reason or "Rejected by lab staff"
-        )
+        booking.rejection_reason = reason or "Rejected by lab staff"
         flash("Booking rejected.", "success")
 
     db.session.commit()
 
     return redirect(url_for("staff.dashboard"))
+
