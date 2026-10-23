@@ -46,7 +46,8 @@ pytest --cov=. --cov-report=term-missing
 ```
 
 ## Documentation
-- `TESTING.md`: Testing strategy and results
-- `REVIEW_CHECKLIST.md`: Code review checklist
-- `RETROSPECTIVE.md`: Team retrospective
+- `TESTING.md`: Testing strategy and results.
+- `REVIEW_CHECKLIST.md`: Code review checklist.
+- `RETROSPECTIVE.md`: Team retrospective.
+
 
