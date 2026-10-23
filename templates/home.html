@@ -1,0 +1,231 @@
+
+{% extends "base.html" %}
+
+{% block title %}Dashboard | LabBook{% endblock %}
+
+{% block content %}
+
+<section class="home-hero">
+    <div class="home-hero-content">
+        <span class="page-eyebrow">LABORATORY WORKSPACE</span>
+
+        {% if current_user.is_authenticated %}
+            <h1>Welcome back, {{ current_user.username }}.</h1>
+            <p>
+                Manage laboratory equipment, track booking requests,
+                and organize your next lab session from one workspace.
+            </p>
+        {% else %}
+            <h1>Laboratory equipment, made easier.</h1>
+            <p>
+                Explore laboratory resources and simplify equipment
+                booking with our centralized laboratory workspace.
+            </p>
+        {% endif %}
+
+        <div class="hero-actions">
+            <a href="{{ url_for('equipment.list_equipment') }}"
+               class="btn btn-light">
+                Explore Equipment <span>→</span>
+            </a>
+
+            {% if current_user.is_authenticated
+                  and current_user.role == 'student' %}
+                <a href="{{ url_for('bookings.create_booking') }}"
+                   class="btn btn-hero-outline">
+                    Request a Booking
+                </a>
+
+            {% elif current_user.is_authenticated
+                    and current_user.role == 'staff' %}
+                <a href="{{ url_for('staff.dashboard') }}"
+                   class="btn btn-hero-outline">
+                    Review Requests
+                </a>
+
+            {% else %}
+                <a href="{{ url_for('auth.register') }}"
+                   class="btn btn-hero-outline">
+                    Create Student Account
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="hero-decoration" aria-hidden="true">
+        <div class="hero-orbit orbit-one"></div>
+        <div class="hero-orbit orbit-two"></div>
+        <div class="hero-symbol">L</div>
+
+        <div class="hero-floating-card">
+            <span class="hero-floating-dot"></span>
+            Organized. Accessible. Ready.
+        </div>
+    </div>
+</section>
+
+<div class="section-heading">
+    <div>
+        <h2>Your workspace</h2>
+        <p>Quick access to your laboratory resources.</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Equipment count: actual database total -->
+    <div class="col-sm-6 col-xl-4">
+        <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="stat-icon">▤</div>
+                <span class="stat-mini-label">INVENTORY</span>
+            </div>
+
+            <div class="stat-label mt-4">Equipment Catalogue</div>
+
+            <p class="stat-value">{{ equipment_count }}</p>
+
+            <p class="stat-description">
+                Total registered equipment records
+            </p>
+
+            <a class="stat-link"
+               href="{{ url_for('equipment.list_equipment') }}">
+                View equipment <span>→</span>
+            </a>
+        </div>
+    </div>
+
+    {% if current_user.is_authenticated
+          and current_user.role == 'student' %}
+
+        <div class="col-sm-6 col-xl-4">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="stat-icon stat-icon-green">▣</div>
+                    <span class="stat-mini-label">MY ACTIVITY</span>
+                </div>
+
+                <div class="stat-label mt-4">My Bookings</div>
+
+                <p class="stat-value">{{ booking_count }}</p>
+
+                <p class="stat-description">
+                    Your submitted booking requests
+                </p>
+
+                <a class="stat-link"
+                   href="{{ url_for('bookings.my_bookings') }}">
+                    View my bookings <span>→</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-4">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="stat-icon stat-icon-purple">＋</div>
+                    <span class="stat-mini-label">NEW REQUEST</span>
+                </div>
+
+                <div class="stat-label mt-4">Book Equipment</div>
+
+                <p class="stat-value stat-value-word">Get started</p>
+
+                <p class="stat-description">
+                    Request equipment for your next lab session
+                </p>
+
+                <a class="stat-link"
+                   href="{{ url_for('bookings.create_booking') }}">
+                    Create a booking <span>→</span>
+                </a>
+            </div>
+        </div>
+
+    {% elif current_user.is_authenticated
+              and current_user.role == 'staff' %}
+
+        <div class="col-sm-6 col-xl-4">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="stat-icon stat-icon-orange">▦</div>
+                    <span class="stat-mini-label">REVIEW</span>
+                </div>
+
+                <div class="stat-label mt-4">Pending Requests</div>
+
+                <p class="stat-value">{{ pending_count }}</p>
+
+                <p class="stat-description">
+                    Requests awaiting staff decisions
+                </p>
+
+                <a class="stat-link"
+                   href="{{ url_for('staff.dashboard') }}">
+                    Manage requests <span>→</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-4">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="stat-icon stat-icon-green">＋</div>
+                    <span class="stat-mini-label">ADMINISTRATION</span>
+                </div>
+
+                <div class="stat-label mt-4">Manage Inventory</div>
+
+                <p class="stat-value stat-value-word">Equipment</p>
+
+                <p class="stat-description">
+                    View and maintain laboratory resources
+                </p>
+
+                <a class="stat-link"
+                   href="{{ url_for('equipment.list_equipment') }}">
+                    Open catalogue <span>→</span>
+                </a>
+            </div>
+        </div>
+
+    {% else %}
+
+        <div class="col-sm-6 col-xl-4">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="stat-icon stat-icon-green">✓</div>
+                    <span class="stat-mini-label">SIMPLE PROCESS</span>
+                </div>
+
+                <div class="stat-label mt-4">Easy Booking</div>
+
+                <p class="stat-value stat-value-word">Three steps</p>
+
+                <p class="stat-description">
+                    Register, choose equipment, and submit your request.
+                </p>
+
+                <a class="stat-link"
+                   href="{{ url_for('auth.register') }}">
+                    Get started <span>→</span>
+                </a>
+            </div>
+        </div>
+
+    {% endif %}
+</div>
+
+<section class="bottom-info-panel">
+    <div class="bottom-info-icon">i</div>
+
+    <div>
+        <h3>Plan your next laboratory session</h3>
+        <p>
+            Check equipment availability before requesting a booking.
+            Requests remain pending until reviewed by lab staff.
+        </p>
+    </div>
+</section>
+
+{% endblock %}
