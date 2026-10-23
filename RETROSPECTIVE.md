@@ -19,8 +19,8 @@ In future, we would write more tests for FR-00 to FR-04, thoroughly test FR-03 b
 ## Team Collaboration Evidence
 
 - **Issues completed:** [12]
-- **Pull requests merged:** [10]
-- **Peer reviews completed:** []
+- **Pull requests merged:** [8]
+- **Peer reviews completed:** [8]
 - **Automated test coverage:** [95%]
 
 ## Conclusion
