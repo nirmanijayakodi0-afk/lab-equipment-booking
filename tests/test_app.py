@@ -1,3 +1,4 @@
+
 from app import app
 
 
@@ -8,5 +9,4 @@ def test_home_page():
         response = client.get("/")
 
     assert response.status_code == 200
-    assert b"Lab Equipment Booking System" in response.data
-    
+    assert b"Laboratory Equipment Booking System" in response.data
