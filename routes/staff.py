@@ -9,6 +9,7 @@ from sqlalchemy import select
 
 from extensions import db
 from models import Booking
+from routes.bookings import has_booking_conflict
 
 staff_bp = Blueprint("staff", __name__, url_prefix="/staff")
 
