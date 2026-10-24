@@ -1,0 +1,56 @@
+
+{% extends "base.html" %}
+
+{% block title %}Register | LabBook{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="equipment-icon mb-3">＋</div>
+        <h1>Create an account</h1>
+        <p class="muted-text mb-4">
+            Register as a student to request laboratory equipment.
+        </p>
+
+        <form method="POST" action="{{ url_for('auth.register') }}">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input class="form-control" id="username" name="username"
+                       minlength="3" maxlength="50" autocomplete="username" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email"
+                       autocomplete="email" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password"
+                       name="password" minlength="8"
+                       autocomplete="new-password" required>
+                <div class="form-text">Use at least 8 characters.</div>
+            </div>
+
+            <div class="mb-4">
+                <label for="confirm_password" class="form-label">
+                    Confirm password
+                </label>
+                <input type="password" class="form-control" id="confirm_password"
+                       name="confirm_password" minlength="8"
+                       autocomplete="new-password" required>
+            </div>
+
+            <button class="btn btn-primary w-100 py-2" type="submit">
+                Create Student Account
+            </button>
+        </form>
+
+        <p class="text-center mt-4 mb-0 small">
+            Already registered?
+            <a href="{{ url_for('auth.login') }}">Login</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
