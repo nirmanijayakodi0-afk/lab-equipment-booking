@@ -1,75 +1,53 @@
 # Lab Equipment Booking System
 
 ## Project Overview
-
-The Lab Equipment Booking System is a web-based application developed using Flask and Python to manage shared laboratory equipment bookings.
-
-It helps users view available equipment and manage booking requests in an organized way.
+A web-based system for managing shared laboratory equipment and booking requests.
 
 ## Features
+- FR-00: User accounts and login
+- FR-01: Equipment catalogue
+- FR-02: Booking requests
+- FR-03: Booking validation and business rules
+- FR-04: Booking approval and status management
 
-- User accounts and login
-- Equipment catalogue
-- Equipment availability management
-- Booking requests
-- Database-backed equipment records
-- Automated testing using pytest
+## Team Members and Responsibilities
+| Member | GitHub Username | Responsibility |
+|---|---|---|
+| Member 1 | nirmanijayakodi0-afk | FR-00 Accounts and Login |
+| Member 2 | dewni2003 | FR-01 Equipment Catalogue |
+| Member 3 | Eranthi-Sudusinghe | FR-02 Booking Requests |
+| Member 4 | Hansika | FR-03 Validation and Testing |
+| Member 5 | peshalahiruni39 | FR-04 Approval and Status |
 
-## Technologies Used
+Update the table to reflect your team's actual work and usernames.
 
+## Technologies
 - Python
 - Flask
-- Flask-SQLAlchemy
 - SQLite
-- HTML and CSS
-- pytest
+- Flask-SQLAlchemy
+- pytest and pytest-cov
 - Ruff
+- GitHub Actions
 
-## Installation
-
+## Installation and Setup
 1. Clone the repository.
-2. Create and activate a virtual environment.
+2. Create and activate a Python virtual environment.
 3. Install the required dependencies.
-4. Run the application.
+4. Configure the application as required.
+5. Initialize the database if necessary.
+6. Run the Flask application.
 
-```bash
-git clone https://github.com/nirmanijayakodi0-afk/lab-equipment-booking.git
-cd lab-equipment-booking
-python -m venv .venv
-```
-
-Activate the environment on Windows:
-
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-Install dependencies:
-
-```bash
-python -m pip install -r requirements.txt
-```
-
-Run the application:
-
-```bash
-python app.py
-```
-
-## Testing
-
-Run automated tests:
-
-```bash
-python -m pytest -v
-```
-
-Run code quality checks:
-
+## Running Tests
 ```bash
 ruff check .
+pytest
+pytest --cov=. --cov-report=term-missing
 ```
 
-## Project Status
+## Documentation
+- `TESTING.md`: Testing strategy and results.
+- `REVIEW_CHECKLIST.md`: Code review checklist.
+- `RETROSPECTIVE.md`: Team retrospective.
 
-The system is being developed incrementally, with accounts and login, the equipment catalogue, and booking requests as key development priorities.
+
